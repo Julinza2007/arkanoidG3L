@@ -1,47 +1,74 @@
 package GUI;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+import javax.swing.Timer;
+import java.awt.event.ActionListener;
 
 public class Arkanoid extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private int anchoPanel=0;
+	private int altoPanel=0;
 
 
 	public Arkanoid() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		setBounds(100, 100, 816, 600);
+		setFocusable(true);
+		requestFocusInWindow();
+		setBounds(100, 100, 816, 572);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		ImageIcon galaxy = new ImageIcon(getClass().getResource("/GUI/galaxia.png"));
+		
 		generarBloques();
 		
-		Player player = new Player(360, 520, 80, 10);
-		player.setBackground(Color.BLACK);
+		Ball ball = new Ball(400, 250, 20, 20);
+		ball.setBackground(Color.RED);
+		contentPane.add(ball);
+		
+		Player player = new Player(360, 470, 80, 10);
+		player.setBackground(Color.GREEN);
 		contentPane.add(player);
+		
+		JLabel contenedorGalaxy = new JLabel(galaxy);
+		contenedorGalaxy.setBounds(0, 0, 800, 533);
+		contentPane.add(contenedorGalaxy);
+		
+
+		Timer timer = new Timer(10, new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				anchoPanel = contentPane.getWidth();
+				altoPanel = contentPane.getHeight();
+				ball.mover();
+				ball.rebotar(anchoPanel, altoPanel, player);
+			}
+		});
+	timer.start();
 		
 		
 
 		addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				int anchoPanel = contentPane.getWidth();
 				System.out.println("Ancho del ContentPane: " + anchoPanel);
+				System.out.println("Alto del contentPane: " + altoPanel);
 				if(e.getKeyCode() == KeyEvent.VK_D){
 					player.moverDerecha(anchoPanel);
-					
 				}
 				
 				if(e.getKeyCode() == KeyEvent.VK_A) {
-					player.moverIzquierda(anchoPanel);
+					player.moverIzquierda();
 				}
 			}
 		});

@@ -10,18 +10,20 @@ public class Player extends JPanel {
 		setBounds(posX, posY, ancho, alto);
 	}
 	
-	public void moverDerecha(int ancho) {
+	public void moverDerecha(int anchoPanel) {
 		int posX = getX();
 		int posY = getY();
 		System.out.println("Posición eje X del jugador: " + posX + "\n");
-		if (posX + getWidth() < ancho) {
+		if (posX + getWidth() < anchoPanel) {
 			setLocation(posX + 15, posY);
 		}
 	}
 	
-	public void moverIzquierda(int ancho) {
+	public void moverIzquierda() {
 		int posX = getX();
 		int posY = getY();
+		
+		System.out.println("Posición eje X del jugador: " + posX + "\n");
 		
 		if (posX > 0) {
 			setLocation(posX - 15, posY);
