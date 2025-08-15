@@ -87,12 +87,12 @@ public class Arkanoid extends JFrame {
 				altoPanel = contentPane.getHeight();
 				ball.mover();
 				ball.rebotar(anchoPanel, altoPanel, player, bloques);
-				ArrayList<Block> paraEliminar = ball.detectarColisiones(bloques);
-				for (Block bloque : paraEliminar) {
-					bloques.remove(bloque);
-					contentPane.remove(bloque);
+				ArrayList<Block> paraEliminar = ball.detectarColisiones(bloques);		// Se crea una nueva lista de Arrays sobre los bloques que se deben eliminar
+				for (Block bloque : paraEliminar) {										// Se hace un for each para explorar cada bloque que esta para eliminar
+					bloques.remove(bloque);												// Remueve el bloque que esta para eliminar de la lista de bloques
+					contentPane.remove(bloque);											// Remueve el bloque para eliminar del "contentPane", osea de la pestaña
 				}
-				contentPane.repaint();
+				contentPane.repaint();													// Se "pinta" denuevo la pestaña, basicamente se actualiza la pestaña.
 			}
 		});
 		timer.start();
