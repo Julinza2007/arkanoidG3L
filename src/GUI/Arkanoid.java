@@ -1,5 +1,6 @@
 package GUI;
 
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,9 +19,12 @@ public class Arkanoid extends JFrame {
 	private JPanel contentPane;
 	private int anchoPanel=0;
 	private int altoPanel=0;
+	private ArrayList<Block> bloques = new ArrayList<>();
+
 
 
 	public Arkanoid() {
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setFocusable(true);
@@ -32,7 +36,21 @@ public class Arkanoid extends JFrame {
 		
 		ImageIcon galaxy = new ImageIcon(getClass().getResource("/GUI/galaxia.png"));
 		
-		generarBloques();
+
+		Random random = new Random();
+		for(int i=0; i < 8; i++) {
+			for(int j=0; j < 3; j++) {
+				int rojo = random.nextInt(256);
+				int azul = random.nextInt(256);
+				int verde = random.nextInt(256);
+				
+				Color colorRandom = new Color(rojo, verde, azul);
+				Block bloque = new Block(100 * i, 35 * j, 100, 35, colorRandom);
+				bloques.add(bloque);
+				contentPane.add(bloque);
+			    
+			}
+		}
 		
 		Ball ball = new Ball(400, 250, 20, 20);
 		ball.setBackground(Color.RED);
@@ -47,16 +65,6 @@ public class Arkanoid extends JFrame {
 		contentPane.add(contenedorGalaxy);
 		
 
-		Timer timer = new Timer(10, new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				anchoPanel = contentPane.getWidth();
-				altoPanel = contentPane.getHeight();
-				ball.mover();
-				ball.rebotar(anchoPanel, altoPanel, player);
-			}
-		});
-	timer.start();
-		
 		
 
 		addKeyListener(new KeyAdapter() {
@@ -73,23 +81,26 @@ public class Arkanoid extends JFrame {
 			}
 		});
 		
-	}
-	
-	public void generarBloques() {
-		Random random = new Random();
-		
-		for(int i=0; i < 8; i++) {
-			for(int j=0; j < 3; j++) {
-				int rojo = random.nextInt(256);
-				int azul = random.nextInt(256);
-				int verde = random.nextInt(256);
-				
-				Color colorRandom = new Color(rojo, verde, azul);
-				Block bloque = new Block(100 * i, 35 * j, 100, 35, colorRandom);
-				contentPane.add(bloque);
+		Timer timer = new Timer(10, new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				anchoPanel = contentPane.getWidth();
+				altoPanel = contentPane.getHeight();
+				ball.mover();
+				ball.rebotar(anchoPanel, altoPanel, player, bloques);
+				ArrayList<Block> paraEliminar = ball.detectarColisiones(bloques);
+				for (Block bloque : paraEliminar) {
+					bloques.remove(bloque);
+					contentPane.remove(bloque);
+				}
+				contentPane.repaint();
 			}
-		}
+		});
+		timer.start();
 		
 	}
+
+	
+	
+
 
 }
