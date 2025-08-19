@@ -95,7 +95,7 @@ public class Arkanoid extends JFrame {
 						bloques.remove(bloque);												// Remueve el bloque que esta para eliminar de la lista de bloques
 						contentPane.remove(bloque);											// Remueve el bloque para eliminar del "contentPane", osea de la pestaña
 				}
-				contentPane.repaint();													// Se "pinta" denuevo la pestaña, basicamente se actualiza la pestaña.
+				contentPane.repaint();													// Se "pinta" de nuevo la pestaña, basicamente se actualiza el panel.
 			}
 		});
 		timer.start();

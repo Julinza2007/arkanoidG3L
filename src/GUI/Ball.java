@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 public class Ball extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private int dx = 2;
-	private int dy = 2;
+	private double dx = 3.0;
+	private double dy = 3.0;
 
 	
 	public Ball(int posX, int posY, int ancho, int alto) {
