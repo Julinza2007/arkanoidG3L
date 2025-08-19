@@ -48,28 +48,20 @@ public class Ball extends JPanel {
 			}
 		
 	}
-	public ArrayList<Block> detectarColisiones(ArrayList<Block> bloques, int[][] vida){							// se crea una nueva funcion para las colisiones con los bloques
+	public ArrayList<Block> detectarColisiones(ArrayList<Block> bloques){							// se crea una nueva funcion para las colisiones con los bloques
 		int posX = getX();
 		int posY = getY();
 		ArrayList<Block> bloquesColisionados = new ArrayList<>();									// Se crea una nueva lista de arrays de los bloques colisionados
 		for (Block bloque : bloques) {																// Se hace un for each, donde se van a explorar cada bloque dentro de la lista de bloques
 				if (posX <= bloque.getX() + bloque.getWidth() && posX + getWidth() >= bloque.getX() &&
 					posY <= bloque.getY() + bloque.getHeight() && posY + getHeight() >= bloque.getY()) {
-					
-					for(int i=0; i < 8; i++) {
-						for(int j=0; j < 3; j++) {
-							if (vida[i][j] == 1) {
 								dy = -dy;				
-								bloquesColisionados.add(bloque);											// A la lista de colsiones se le agrega el bloque con el que colisiono.
-							}
-							
-							else {
-								vida[i][j] -= 1;
-								dy = -dy;
-							}
+								if(bloque.restarVida() == 0) {
+									bloquesColisionados.add(bloque);											// A la lista de colsiones se le agrega el bloque con el que colisiono.
+								}
 						}
-					}
-					}
+					
+					
 				}
 		return bloquesColisionados;																	// La funcion devuelve la lista de colisiones
 	}

@@ -20,7 +20,6 @@ public class Arkanoid extends JFrame {
 	private int anchoPanel=0;
 	private int altoPanel=0;
 	private ArrayList<Block> bloques = new ArrayList<>();
-	private int[][] vida = new int[8][3];
 
 	public Arkanoid() {
 
@@ -45,7 +44,7 @@ public class Arkanoid extends JFrame {
 				int rojo = random.nextInt(256);
 				int azul = random.nextInt(256);
 				int verde = random.nextInt(256);
-				vida[i][j] = random.nextInt(3+1);
+				int vida = random.nextInt(3) + 1;
 				
 				Color colorRandom = new Color(rojo, verde, azul);
 				Block bloque = new Block(100 * i, 35 * j, 100, 35, colorRandom, vida);
@@ -90,8 +89,9 @@ public class Arkanoid extends JFrame {
 				altoPanel = contentPane.getHeight();
 				ball.mover();
 				ball.rebotar(anchoPanel, altoPanel, player, bloques);
-				ArrayList<Block> paraEliminar = ball.detectarColisiones(bloques, vida);		// Se crea una nueva lista de Arrays sobre los bloques que se deben eliminar
+				ArrayList<Block> paraEliminar = ball.detectarColisiones(bloques);		// Se crea una nueva lista de Arrays sobre los bloques que se deben eliminar
 				for (Block bloque : paraEliminar) {										// Se hace un for each para explorar cada bloque que esta para eliminar
+						bloque.romperBloque();												// ocultar bloque 
 						bloques.remove(bloque);												// Remueve el bloque que esta para eliminar de la lista de bloques
 						contentPane.remove(bloque);											// Remueve el bloque para eliminar del "contentPane", osea de la pestaña
 				}

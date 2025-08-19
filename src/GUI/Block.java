@@ -10,25 +10,45 @@ public class Block extends JButton {
 	
 	private boolean estaRoto = false;
 
-	public Block(int posX, int posY, int ancho, int alto, Color color, int[][] vida) {
+	private int vida;
+
+	public Block(int posX, int posY, int ancho, int alto, Color color, int vida) {
 		setBounds(posX, posY, ancho, alto);
 		setEnabled(false);
+		this.vida = vida;
 		
-		for(int i=0; i < 8; i++) {
-			for(int j=0; j < 3; j++) {
+
 				
-			if (vida[i][j] == 3) {
-				setBackground(Color.RED);
-			}
-			if (vida[i][j] == 2) {
-				setBackground(Color.BLUE);
-			}
-			if (vida[i][j] == 1) {
+			if (vida == 3) {
 				setBackground(Color.GREEN);
 			}
-		}
-		}
+			if (vida == 2) {
+				setBackground(Color.YELLOW);
+			}
+			if (vida == 1) {
+				setBackground(Color.RED);
+			}
+			
 	}
+	
+	public int restarVida(){
+		
+		vida -=1;
+		
+		if (vida == 3) {
+			setBackground(Color.GREEN);
+		}
+		if (vida == 2) {
+			setBackground(Color.YELLOW);
+		}
+		if (vida == 1) {
+			setBackground(Color.RED);
+		}
+		
+		return vida;
+	}
+	
+	
 	
 	public void romperBloque() {
 		estaRoto = true;
