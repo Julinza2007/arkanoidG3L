@@ -28,9 +28,7 @@ public class Arkanoid extends JFrame {
 	
 	private ArrayList<Block> bloques = new ArrayList<>();
 	private int nivelActual = 1;
-	
-	private boolean juegoPausado = false;
-	
+		
 	public Arkanoid() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,12 +47,12 @@ public class Arkanoid extends JFrame {
 		
 		contadorDeNiveles = new JLabel("Nivel: " + nivelActual);
 		contadorDeNiveles.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
-		contadorDeNiveles.setBounds(10, 484, 100, 20);
+		contadorDeNiveles.setBounds(10, 502, 100, 20);
 		contadorDeNiveles.setForeground(Color.WHITE);
 		contentPane.add(contadorDeNiveles);
 	
 		
-		Ball ball = new Ball(400, 250, 20, 20);
+		Ball ball = new Ball(400, 190, 20, 20);
 		ball.setBackground(Color.RED);
 		contentPane.add(ball);
 		
@@ -91,13 +89,7 @@ public class Arkanoid extends JFrame {
 		        if (teclaPresionada == KeyEvent.VK_D) { dPressed = false; }
 		    }
 			});
-		
-		
-		
-
-		
-		
-		
+				
 		
 		Timer timer = new Timer(10, new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -108,7 +100,7 @@ public class Arkanoid extends JFrame {
 				    puntaje.perderVida();
 				    
 				    if (puntaje.getVidas() > 0) {
-				        ball.resetBall(408, 286);
+				        ball.resetBall(408, 190);
 				    } else {
 				        mostrarGameOver(puntaje, player, ball);
 				    }
@@ -119,14 +111,13 @@ public class Arkanoid extends JFrame {
 						bloque.romperBloque();			  								// ocultar bloque 
 						bloques.remove(bloque);											// Remueve el bloque que esta para eliminar de la lista de bloques
 						contentPane.remove(bloque);										// Remueve el bloque para eliminar del "contentPane", osea de la pestaña
-						puntaje.add(100); // Aumenta el puntaje en 100 puntos por cada bloque eliminado.
+						puntaje.add(100); 												// Aumenta el puntaje en 100 puntos por cada bloque eliminado.
 				}
 				
 				if (nivelCompletado()) {
-				    pasarAlSiguienteNivel(ball); // Si el nivel esta completado, se pasa al siguiente nivel.
+				    pasarAlSiguienteNivel(ball); 									// Si el nivel esta completado, se pasa al siguiente nivel.
 				}
 				
-//				contentPane.revalidate();											// Se revalida el panel, para que se actualicen los cambios.
 				contentPane.repaint();												// Se "pinta" de nuevo el panel, basicamente se actualiza el panel.
 			}
 		});
@@ -139,33 +130,6 @@ public class Arkanoid extends JFrame {
 	    return bloques.isEmpty(); // Método que devuelve true o false si la lista de bloques está vacía.
 	}
 	
-	private void reiniciarPosiciones(Ball ball, Player player) {
-	    ball.resetBall(408, 286); // o la posición que prefieras
-	    player.setLocation(360, 470);
-	}
-	
-	private void reiniciarJuego(Puntaje puntaje, Player player, Ball ball) {
-	    nivelActual = 1;
-	    contadorDeNiveles.setText("Nivel: " + nivelActual);
-	    puntaje.reset();
-	    generarBloques(nivelActual);
-	    reiniciarPosiciones(ball, player);
-	}
-	
-	
-	
-	public void mostrarGameOver(Puntaje puntaje, Player player, Ball ball) {
-	    int opcion = JOptionPane.showConfirmDialog(null, "¡Game Over! ¿Querés jugar de nuevo?", "Fin del juego", JOptionPane.YES_NO_OPTION);
-	    
-	    if (opcion == JOptionPane.YES_OPTION) {
-	    	reiniciarJuego(puntaje, player, ball);
-	    } else {
-	        System.exit(0); // Cierra la aplicación
-	    }
-	}
-	
-	
-
 	
 	private void generarBloques(int nivel) {
 		Random random = new Random();
@@ -212,58 +176,35 @@ public class Arkanoid extends JFrame {
 	    contadorDeNiveles.setText("Nivel: " + nivelActual);
 	    generarBloques(nivelActual);
 	    ball.aumentarVelocidad(1.1); // Este método lo agregás en tu clase Ball
-	    ball.resetBall(408, 286); // Posición inicial, dirección, etc.
+	    ball.resetBall(408, 190); // Posición inicial, dirección, etc.
+	}
+	
+	
+	private void reiniciarPosiciones(Ball ball, Player player) {
+	    ball.resetBall(408, 190);
+	    player.setLocation(360, 470);
+	}
+	
+	private void reiniciarJuego(Puntaje puntaje, Player player, Ball ball) {
+	    nivelActual = 1;
+	    contadorDeNiveles.setText("Nivel: " + nivelActual);
+	    puntaje.reset();
+	    generarBloques(nivelActual);
+	    reiniciarPosiciones(ball, player);
+	}
+	
+	
+	public void mostrarGameOver(Puntaje puntaje, Player player, Ball ball) {
+	    int opcion = JOptionPane.showConfirmDialog(null, "¡Game Over! ¿Querés jugar de nuevo?", "Fin del juego", JOptionPane.YES_NO_OPTION);
+	    
+	    if (opcion == JOptionPane.YES_OPTION) {
+	    	reiniciarJuego(puntaje, player, ball);
+	    } else {
+	        System.exit(0); // Cierra la aplicación
+	    }
 	}
 	
 		
 	
 
 }
-
-
-
-/*
-public void perderVida() {
-	puntaje.perderVida();
-	
-	if (puntaje.getVidas() > 0) {
-		reiniciarPosiciones();
-	} else {
-		reiniciarNivel();
-	}
-}
-
-private void reiniciarPosiciones() {
-	for (java.awt.Component comp : contentPane.getComponents()) {
-		if (comp instanceof Ball) {
-			comp.setLocation(400, 250);
-		} else if (comp instanceof Player) {
-			comp.setLocation(360, 470);
-		}
-	}
-}
-
-private void reiniciarNivel() {
-	for (Block bloque : bloques) {
-		contentPane.remove(bloque);
-	}
-	bloques.clear();
-	
-	Random random = new Random();
-	for(int i = 0; i < 8; i++) {
-		for(int j = 0; j < 3; j++) {
-			int rojo = random.nextInt(256);
-			int azul = random.nextInt(256);
-			int verde = random.nextInt(256);
-			
-			Color colorRandom = new Color(rojo, verde, azul);
-			Block bloque = new Block(100 * i, 35 * j, 100, 35, colorRandom);
-			bloques.add(bloque);
-			contentPane.add(bloque);
-		}
-	}
-	
-	reiniciarPosiciones();
-	puntaje.resetVidas();
-} */
-

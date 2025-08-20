@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -38,7 +37,7 @@ public class Ball extends JPanel {
 			dy *= -1;
 		}
 		if (posY >= altoPanel - getHeight()) {
-			resetBall(408, 286);
+			resetBall(408, 190);
 			tocarSuelo(altoPanel);
 			return;
 		}

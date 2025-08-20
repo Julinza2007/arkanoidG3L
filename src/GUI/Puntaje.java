@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 
 public class Puntaje extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private int score = 0;
 	private int vidas = 3;
 	
