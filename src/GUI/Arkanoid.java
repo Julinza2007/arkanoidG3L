@@ -26,7 +26,7 @@ public class Arkanoid extends JFrame {
 	private boolean dPressed = false;
 	private JLabel contadorDeNiveles;
 	
-	private ArrayList<Block> bloques = new ArrayList<>();
+	private ArrayList<Block> bloques = new ArrayList<>(); // Se crea un array, que contiene todos los bloques.
 	private int nivelActual = 1;
 		
 	public Arkanoid() {
@@ -39,7 +39,8 @@ public class Arkanoid extends JFrame {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		Puntaje puntaje = new Puntaje();
+		
+		Puntaje puntaje = new Puntaje(); // Se instancia el puntaje.
 		puntaje.setBounds(360, 480, 150, 50);
 		contentPane.add(puntaje);
 
@@ -57,7 +58,7 @@ public class Arkanoid extends JFrame {
 		contentPane.add(ball);
 		
 		Player player = new Player(360, 470, 80, 10);
-		player.setBackground(Color.GREEN);
+		player.setBackground(Color.WHITE);
 		contentPane.add(player);
 		
 		
@@ -65,12 +66,12 @@ public class Arkanoid extends JFrame {
 		contenedorGalaxy.setBounds(0, 0, 800, 533);
 		contentPane.add(contenedorGalaxy);
 		
-		generarBloques(nivelActual); // Genera los bloques del primer nivel.
+		generarBloques(nivelActual); // Se generan los bloques del primer nivel.
 		
 		
-		addKeyListener(new KeyListener() {
+		addKeyListener(new KeyListener() { // Se abre el listener para poder escuchar input del teclado en el juego.
 			
-		    public void keyTyped(KeyEvent e) {} // Se abre el listener para poder escuchar input del teclado en el juego.
+			public void keyTyped(KeyEvent e) {} 
 
 		    public void keyPressed(KeyEvent e) {
 		        int teclaPresionada = e.getKeyCode();
@@ -79,7 +80,7 @@ public class Arkanoid extends JFrame {
 		        if (teclaPresionada == KeyEvent.VK_D) { dPressed = true; }
 
 		        if (aPressed) { player.moverIzquierda(); }
-		        if (dPressed) { player.moverDerecha(anchoPanel); }
+		        if (dPressed) { player.moverDerecha(anchoPanel); } 
 		    }
 
 		    @Override
@@ -91,7 +92,7 @@ public class Arkanoid extends JFrame {
 			});
 				
 		
-		Timer timer = new Timer(10, new ActionListener(){
+		Timer timer = new Timer(10, new ActionListener(){ // Alternativa al thread.sleep, que se ejecuta cada 10 milisegundos.
 			public void actionPerformed(ActionEvent e) {
 				anchoPanel = contentPane.getWidth();
 				altoPanel = contentPane.getHeight();
@@ -127,7 +128,7 @@ public class Arkanoid extends JFrame {
 	
 	
 	private boolean nivelCompletado() {
-	    return bloques.isEmpty(); // Método que devuelve true o false si la lista de bloques está vacía.
+	    return bloques.isEmpty(); // Método que devuelve true o false si el array de bloques está vacía.
 	}
 	
 	
@@ -143,7 +144,7 @@ public class Arkanoid extends JFrame {
 		for(int i=0; i < filas; i++) {
 			for(int j=0; j < columnas; j++) {
 				int vida = 1;
-				int probab = random.nextInt(100); // Se genera un numero de 0 a 99.
+				int probab = random.nextInt(100) + 1; // Se genera un numero de 1 a 100.
 
 				if (nivel == 1) {
 				    if (probab < 70) vida = 1;
@@ -195,9 +196,9 @@ public class Arkanoid extends JFrame {
 	
 	
 	public void mostrarGameOver(Puntaje puntaje, Player player, Ball ball) {
-	    int opcion = JOptionPane.showConfirmDialog(null, "¡Game Over! ¿Querés jugar de nuevo?", "Fin del juego", JOptionPane.YES_NO_OPTION);
+	    int opcion = JOptionPane.showConfirmDialog(null, "Game Over :(\n¿Querés jugar de nuevo?", "Fin del juego", JOptionPane.YES_NO_OPTION);
 	    
-	    if (opcion == JOptionPane.YES_OPTION) {
+	    if (opcion == JOptionPane.YES_OPTION) { // Si el usuario elige la opción "Si" se reinicia el juego.
 	    	reiniciarJuego(puntaje, player, ball);
 	    } else {
 	        System.exit(0); // Cierra la aplicación
