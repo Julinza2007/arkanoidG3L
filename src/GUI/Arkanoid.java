@@ -28,6 +28,7 @@ public class Arkanoid extends JFrame {
 	private ArrayList<Block> bloques = new ArrayList<>();
 	private int nivelActual = 1;
 	
+	private boolean juegoPausado = false;
 	
 	public Arkanoid() {
 
@@ -39,7 +40,10 @@ public class Arkanoid extends JFrame {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		Puntaje puntaje = new Puntaje();
+		puntaje.setBounds(360, 480, 150, 50);
+		contentPane.add(puntaje);
+
 		ImageIcon galaxy = new ImageIcon(getClass().getResource("/GUI/galaxia.png"));
 		
 		contadorDeNiveles = new JLabel("Nivel: " + nivelActual);
@@ -47,7 +51,7 @@ public class Arkanoid extends JFrame {
 		contadorDeNiveles.setBounds(10, 484, 100, 20);
 		contadorDeNiveles.setForeground(Color.WHITE);
 		contentPane.add(contadorDeNiveles);
-		
+	
 		
 		Ball ball = new Ball(400, 250, 20, 20);
 		ball.setBackground(Color.RED);
@@ -99,6 +103,7 @@ public class Arkanoid extends JFrame {
 						bloque.romperBloque();			  								// ocultar bloque 
 						bloques.remove(bloque);											// Remueve el bloque que esta para eliminar de la lista de bloques
 						contentPane.remove(bloque);										// Remueve el bloque para eliminar del "contentPane", osea de la pestaña
+						puntaje.add(100); // Aumenta el puntaje en 100 puntos por cada bloque eliminado.
 				}
 				
 				if (nivelCompletado()) {
@@ -165,11 +170,55 @@ public class Arkanoid extends JFrame {
 	    ball.aumentarVelocidad(1.1); // Este método lo agregás en tu clase Ball
 	    ball.resetBall(408, 286); // Posición inicial, dirección, etc.
 	}
-	
-	
-
-	
-	
+		
 
 
 }
+
+
+
+/*
+public void perderVida() {
+	puntaje.perderVida();
+	
+	if (puntaje.getVidas() > 0) {
+		reiniciarPosiciones();
+	} else {
+		reiniciarNivel();
+	}
+}
+
+private void reiniciarPosiciones() {
+	for (java.awt.Component comp : contentPane.getComponents()) {
+		if (comp instanceof Ball) {
+			comp.setLocation(400, 250);
+		} else if (comp instanceof Player) {
+			comp.setLocation(360, 470);
+		}
+	}
+}
+
+private void reiniciarNivel() {
+	for (Block bloque : bloques) {
+		contentPane.remove(bloque);
+	}
+	bloques.clear();
+	
+	Random random = new Random();
+	for(int i = 0; i < 8; i++) {
+		for(int j = 0; j < 3; j++) {
+			int rojo = random.nextInt(256);
+			int azul = random.nextInt(256);
+			int verde = random.nextInt(256);
+			
+			Color colorRandom = new Color(rojo, verde, azul);
+			Block bloque = new Block(100 * i, 35 * j, 100, 35, colorRandom);
+			bloques.add(bloque);
+			contentPane.add(bloque);
+		}
+	}
+	
+	reiniciarPosiciones();
+	puntaje.resetVidas();
+} */
+
