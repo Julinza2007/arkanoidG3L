@@ -65,8 +65,13 @@ public class Ball extends JPanel {
 				}
 		return bloquesColisionados;																	// La funcion devuelve la lista de colisiones
 	}
-	private void resetBall(int x, int y) {
+	public void resetBall(int x, int y) {
         setLocation(x, y);
-    }	
+    }
+	
+	public void aumentarVelocidad(double velocidad) {
+		dx *= velocidad;
+		dy *= velocidad;
+	}
 
 }

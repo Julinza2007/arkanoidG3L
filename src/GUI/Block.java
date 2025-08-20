@@ -8,16 +8,12 @@ public class Block extends JButton {
 
 	private static final long serialVersionUID = 1L;
 	
-	private boolean estaRoto = false;
-
 	private int vida;
 
-	public Block(int posX, int posY, int ancho, int alto, Color color, int vida) {
+	public Block(int posX, int posY, int ancho, int alto, int vida) {
 		setBounds(posX, posY, ancho, alto);
 		setEnabled(false);
 		this.vida = vida;
-		
-
 				
 			if (vida == 3) {
 				setBackground(Color.GREEN);
@@ -51,7 +47,6 @@ public class Block extends JButton {
 	
 	
 	public void romperBloque() {
-		estaRoto = true;
 		setVisible(false);		
 	}
 
