@@ -39,6 +39,7 @@ public class Ball extends JPanel {
 		}
 		if (posY >= altoPanel - getHeight()) {
 			resetBall(408, 286);
+			tocarSuelo(altoPanel);
 			return;
 		}
 		
@@ -67,6 +68,10 @@ public class Ball extends JPanel {
 	}
 	public void resetBall(int x, int y) {
         setLocation(x, y);
+    }
+	
+	public boolean tocarSuelo(int altoPanel) {
+        return getY() + getHeight() >= altoPanel;
     }
 	
 	public void aumentarVelocidad(double velocidad) {

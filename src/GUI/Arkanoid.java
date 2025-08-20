@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -92,11 +93,26 @@ public class Arkanoid extends JFrame {
 			});
 		
 		
+		
+
+		
+		
+		
+		
 		Timer timer = new Timer(10, new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				anchoPanel = contentPane.getWidth();
 				altoPanel = contentPane.getHeight();
 				ball.mover();
+				if (ball.tocarSuelo(altoPanel)) {
+				    puntaje.perderVida();
+				    
+				    if (puntaje.getVidas() > 0) {
+				        ball.resetBall(408, 286);
+				    } else {
+				        mostrarGameOver(puntaje, player, ball);
+				    }
+				}
 				ball.rebotar(anchoPanel, altoPanel, player, bloques);
 				ArrayList<Block> paraEliminar = ball.detectarColisiones(bloques);		// Se crea una nueva lista de Arrays sobre los bloques que se deben eliminar
 				for (Block bloque : paraEliminar) {										// Se hace un for each para explorar cada bloque que esta para eliminar
@@ -122,6 +138,34 @@ public class Arkanoid extends JFrame {
 	private boolean nivelCompletado() {
 	    return bloques.isEmpty(); // Método que devuelve true o false si la lista de bloques está vacía.
 	}
+	
+	private void reiniciarPosiciones(Ball ball, Player player) {
+	    ball.resetBall(408, 286); // o la posición que prefieras
+	    player.setLocation(360, 470);
+	}
+	
+	private void reiniciarJuego(Puntaje puntaje, Player player, Ball ball) {
+	    nivelActual = 1;
+	    contadorDeNiveles.setText("Nivel: " + nivelActual);
+	    puntaje.reset();
+	    generarBloques(nivelActual);
+	    reiniciarPosiciones(ball, player);
+	}
+	
+	
+	
+	public void mostrarGameOver(Puntaje puntaje, Player player, Ball ball) {
+	    int opcion = JOptionPane.showConfirmDialog(null, "¡Game Over! ¿Querés jugar de nuevo?", "Fin del juego", JOptionPane.YES_NO_OPTION);
+	    
+	    if (opcion == JOptionPane.YES_OPTION) {
+	    	reiniciarJuego(puntaje, player, ball);
+	    } else {
+	        System.exit(0); // Cierra la aplicación
+	    }
+	}
+	
+	
+
 	
 	private void generarBloques(int nivel) {
 		Random random = new Random();
@@ -170,8 +214,9 @@ public class Arkanoid extends JFrame {
 	    ball.aumentarVelocidad(1.1); // Este método lo agregás en tu clase Ball
 	    ball.resetBall(408, 286); // Posición inicial, dirección, etc.
 	}
+	
 		
-
+	
 
 }
 
